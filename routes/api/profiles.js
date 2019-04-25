@@ -95,7 +95,7 @@ router.post(
       { _id: req.params.id },
       { $set: profileField },
       { new: true }
-    ).then(profile => res.json(profile));
+    ).then(profile => res.json(profile), err => res.json(err));
   }
 );
 
