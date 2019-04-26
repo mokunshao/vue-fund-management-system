@@ -32,6 +32,10 @@
           <el-form-item>
             <el-button type="primary" class="submitButton" @click="submitForm('registerForm')">注册</el-button>
           </el-form-item>
+          <small>
+            已经注册？现在
+            <router-link to="/login">登录</router-link>
+          </small>
         </el-form>
       </div>
     </section>
@@ -109,9 +113,7 @@ export default {
           },
           { validator: this.validatePass2, trigger: "blur" }
         ],
-        identity:[
-          { required: true, message: "身份不能为空" },
-        ]
+        identity: [{ required: true, message: "身份不能为空" }]
       }
     };
   }

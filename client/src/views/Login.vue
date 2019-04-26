@@ -20,6 +20,10 @@
           <el-form-item>
             <el-button type="primary" class="submitButton" @click="submitForm('loginForm')">登录</el-button>
           </el-form-item>
+          <small>
+            还没有账号？现在
+            <router-link to="/register">注册</router-link>
+          </small>
         </el-form>
       </div>
     </section>
@@ -35,7 +39,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$axios.post("/api/users/login", this.loginUser).then(res => {
-            console.log(res);
+            console.log(res.token);
             this.$router.push("/index");
           });
         }
