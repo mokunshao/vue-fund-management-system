@@ -1,0 +1,108 @@
+<template>
+  <div class="login">
+    <section class="form_container">
+      <div class="manage_tip">
+        <span class="title">资金管理系统</span>
+        <el-form
+          :model="loginUser"
+          status-icon
+          :rules="rules"
+          ref="loginForm"
+          label-width="auto"
+          class="loginForm"
+        >
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="loginUser.email" placeholder="请输入邮箱"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="loginUser.password" placeholder="请输入密码"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" class="submitButton" @click="submitForm('loginForm')">登录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Login",
+  component: {},
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$axios.post("/api/users/login", this.loginUser).then(res => {
+            console.log(res);
+            this.$router.push("/index");
+          });
+        }
+      });
+    }
+  },
+  data() {
+    return {
+      loginUser: {
+        email: "",
+        password: ""
+      },
+      rules: {
+        email: [
+          {
+            type: "email",
+            required: true,
+            message: "邮箱格式不正确",
+            trigger: "blur"
+          }
+        ],
+        password: [
+          { required: true, message: "密码不能为空", trigger: "blur" },
+          {
+            min: 6,
+            max: 30,
+            message: "密码长度在6到30个字符之间",
+            trigger: "blur"
+          }
+        ]
+      }
+    };
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.login {
+  box-sizing: border-box;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: url("../assets/bg.jpg") no-repeat center center;
+  background-size: 100% 100%;
+  .form_container {
+    background: #fff;
+    position: absolute;
+    padding: 25px;
+    border-radius: 5px;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .manage_tip {
+      .title {
+        font-family: "Microsoft YaHei";
+        font-weight: bold;
+        font-size: 26px;
+        color: #606266;
+        display: inline-block;
+        padding-bottom: 15px;
+      }
+      .submitButton {
+        width: 100%;
+        padding: 10px;
+      }
+    }
+  }
+}
+</style>

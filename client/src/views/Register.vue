@@ -8,7 +8,7 @@
           status-icon
           :rules="rules"
           ref="registerForm"
-          label-width="80px"
+          label-width="auto"
           class="registerForm"
         >
           <el-form-item label="用户名" prop="name">
@@ -70,7 +70,7 @@ export default {
         email: "",
         password: "",
         password2: "",
-        identity: ""
+        identity: "employee"
       },
       rules: {
         name: [
@@ -108,6 +108,9 @@ export default {
             trigger: "blur"
           },
           { validator: this.validatePass2, trigger: "blur" }
+        ],
+        identity:[
+          { required: true, message: "身份不能为空" },
         ]
       }
     };
