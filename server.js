@@ -14,6 +14,10 @@ app.use(bodyParser.json());
 app.use("/api/users/", users);
 app.use("/api/profiles/", profiles);
 
+app.get("/api/test", (req, res) => {
+  res.json("You can see me now.");
+});
+
 mongoose
   .connect(db, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log("MongoDB connected"), err => console.log(err));
