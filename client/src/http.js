@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Loading, Message } from "element-ui";
+import router from "./router";
 
 let loading;
 
@@ -18,6 +19,9 @@ function endLoading() {
 axios.interceptors.request.use(
   config => {
     startLoading();
+    if (sessionStorage.eleToken) {
+      config.headers.Authorization = sessionStorage.eleToken;
+    }
     return config;
   },
   error => {
@@ -33,8 +37,13 @@ axios.interceptors.response.use(
   error => {
     endLoading();
     Message.error(error.response.data);
+    if (error.response.status === 401) {
+      Message.error("token失效，请重新登陆！");
+      sessionStorage.removeItem("eleToken");
+      router.push("/login");
+    }
     return Promise.reject(error);
   }
 );
 
-export default axios
+export default axios;

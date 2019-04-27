@@ -31,15 +31,27 @@
 </template>
 
 <script>
+import jwt_decode from "jwt-decode";
 export default {
   name: "Login",
   component: {},
   methods: {
+    isEmpty(value) {
+      return (
+        value === undefined ||
+        value === null ||
+        (typeof value === "object" && Object.keys(value).length === 0) ||
+        (typeof value === "string" && value.trim().length === 0)
+      );
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$axios.post("/api/users/login", this.loginUser).then(res => {
-            console.log(res.token);
+            sessionStorage.setItem("eleToken", res.data.token);
+            var decoded = jwt_decode(res.data.token);
+            this.$store.dispatch("setIsAuthenticated", !this.isEmpty(decoded));
+            this.$store.dispatch("setUserInfo", decoded);
             this.$router.push("/index");
           });
         }

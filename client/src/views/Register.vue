@@ -59,10 +59,10 @@ export default {
         if (valid) {
           this.$axios
             .post("/api/users/register", this.registerUser)
-            .then(res => {
+            .then(() => {
               this.$message({ message: "账号注册成功", type: "success" });
+              this.$router.push("/login");
             });
-          this.$router.push("/login");
         }
       });
     }

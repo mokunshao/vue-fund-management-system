@@ -3,13 +3,13 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
       path: "/",
-      redirect: "/index",
+      redirect: "/index"
     },
     {
       path: "/index",
@@ -33,3 +33,14 @@ export default new Router({
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  const isLogin = sessionStorage.eleToken ? true : false;
+  if (to.path === "/login" || to.path === "/register") {
+    next();
+  } else {
+    isLogin ? next() : next("/login");
+  }
+});
+
+export default router;
