@@ -1,12 +1,13 @@
 <template>
-  <div class="Index">临时主页</div>
+  <div class="Index">
+    <Header/>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
+import Header from "@/components/Header";
 export default {
   name: "Index",
-  components: {}
+  components: { Header }
 };
 </script>
