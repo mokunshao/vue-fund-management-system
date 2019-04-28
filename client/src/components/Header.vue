@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="6" class="logoContainer">
         <img src="@/assets/logo.png" alt="logo" class="logo">
-        <span class="title">资金管理系统</span>
+        <span class="title">记账地带</span>
       </el-col>
       <el-col :span="6" class="userInfo">
         <img :src="userInfo.avatar" alt="avater" class="avatar">
@@ -11,7 +11,6 @@
           <div class="welcomeMessage">欢迎</div>
           <div class="username">{{userInfo.name}}</div>
         </div>
-        <!-- <span class="showDropdown"> -->
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
             <i class="el-icon-caret-bottom el-icon--right"></i>
@@ -21,7 +20,6 @@
             <el-dropdown-item command="logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <!-- </span> -->
       </el-col>
     </el-row>
   </header>
@@ -43,7 +41,7 @@ export default {
       }
     },
     showInfoList() {
-      console.log(111);
+      this.$router.push("/info");
     },
     logout() {
       sessionStorage.removeItem("eleToken");
@@ -63,8 +61,12 @@ export default {
 .header {
   box-sizing: border-box;
   padding: 5px;
-  background: #1d1d1d;
-  color: #818181;
+  // background: white;
+  background: #155592;
+  // color: #818181;
+  color: #e7f5ff;
+  box-shadow: 0 0 1px #000 inset;
+  // box-shadow: 0 1px 6px 0 rgba(0,0,0,.1);
   .logoContainer {
     .logo {
       height: 50px;
@@ -80,7 +82,6 @@ export default {
       letter-spacing: 3px;
     }
   }
-
   .userInfo {
     text-align: right;
     float: right;

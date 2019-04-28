@@ -1,6 +1,7 @@
 <template>
   <div class="Index">
     <Header/>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -11,3 +12,11 @@ export default {
   components: { Header }
 };
 </script>
+
+<style lang="scss" scoped>
+.Index {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+</style>

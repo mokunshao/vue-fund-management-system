@@ -2,7 +2,7 @@
   <div class="register">
     <section class="form_container">
       <div class="manage_tip">
-        <span class="title">资金管理系统</span>
+        <span class="title">记账地带</span>
         <el-form
           :model="registerUser"
           status-icon
