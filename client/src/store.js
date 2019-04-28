@@ -32,6 +32,10 @@ const actions = {
   },
   setUserInfo({ commit }, userInfo) {
     commit(types.SET_USER_INFO, userInfo);
+  },
+  clearCurrentState({ commit }) {
+    commit(types.SET_IS_AUTHENTICATED, false);
+    commit(types.SET_USER_INFO, null);
   }
 };
 export default new Vuex.Store({
