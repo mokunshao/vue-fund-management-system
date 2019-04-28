@@ -34,6 +34,8 @@ export default {
 html,
 body,
 #app {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   height: 100%;
 }

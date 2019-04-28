@@ -64,7 +64,6 @@ export default {
 
 <style lang="scss" scoped>
 .user {
-  flex: 1;
   .userItem {
     text-align: center;
     display: flex;

@@ -108,6 +108,9 @@ export default {
         font-weight: bolder;
       }
     }
+    .el-icon-caret-bottom {
+      color: white;
+    }
   }
 }
 </style>
