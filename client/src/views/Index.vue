@@ -5,7 +5,7 @@
       <el-col :span="4">
         <LeftMenu/>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="20" class="rightContent">
         <router-view class="mainContent"></router-view>
       </el-col>
     </el-row>
@@ -31,10 +31,12 @@ export default {
   .contentWrapper {
     flex: 1;
     display: flex;
-    .mainContent {
-      flex: 1;
+    .rightContent {
+      display: flex;
+      .mainContent {
+        flex: 1;
+      }
     }
   }
 }
-
 </style>

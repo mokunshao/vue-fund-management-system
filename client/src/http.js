@@ -19,8 +19,8 @@ function endLoading() {
 axios.interceptors.request.use(
   config => {
     startLoading();
-    if (sessionStorage.eleToken) {
-      config.headers.Authorization = sessionStorage.eleToken;
+    if (localStorage.eleToken) {
+      config.headers.Authorization = localStorage.eleToken;
     }
     return config;
   },
@@ -39,7 +39,7 @@ axios.interceptors.response.use(
     Message.error(error.response.data);
     if (error.response.status === 401) {
       Message.error("token失效，请重新登陆！");
-      sessionStorage.removeItem("eleToken");
+      localStorage.removeItem("eleToken");
       router.push("/login");
     }
     return Promise.reject(error);

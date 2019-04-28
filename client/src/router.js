@@ -18,7 +18,9 @@ const router = new Router({
       children: [
         { path: "", component: () => import("./views/Info.vue") },
         // { path: "/home", component: () => import("./views/Home.vue") },
-        { path: "/info", component: () => import("./views/Info.vue") }
+        { path: "/info", component: () => import("./views/Info.vue") },
+        { path: "/fundList", component: () => import("./views/FundList.vue") }
+
       ]
     },
     {
@@ -40,7 +42,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const isLogin = sessionStorage.eleToken ? true : false;
+  const isLogin = localStorage.eleToken ? true : false;
   if (to.path === "/login" || to.path === "/register") {
     next();
   } else {

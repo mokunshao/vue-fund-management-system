@@ -48,7 +48,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$axios.post("/api/users/login", this.loginUser).then(res => {
-            sessionStorage.setItem("eleToken", res.data.token);
+            localStorage.setItem("eleToken", res.data.token);
             var decoded = jwt_decode(res.data.token);
             this.$store.dispatch("setIsAuthenticated", !this.isEmpty(decoded));
             this.$store.dispatch("setUserInfo", decoded);

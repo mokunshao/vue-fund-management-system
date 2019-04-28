@@ -10,8 +10,8 @@ import jwt_decode from "jwt-decode";
 export default {
   name: "App",
   created() {
-    if (sessionStorage.eleToken) {
-      const decoded = jwt_decode(sessionStorage.eleToken);
+    if (localStorage.eleToken) {
+      const decoded = jwt_decode(localStorage.eleToken);
       this.$store.dispatch("setIsAuthenticated", !this.isEmpty(decoded));
       this.$store.dispatch("setUserInfo", decoded);
     }

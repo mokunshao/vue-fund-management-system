@@ -44,7 +44,7 @@ export default {
       this.$router.push("/info");
     },
     logout() {
-      sessionStorage.removeItem("eleToken");
+      localStorage.removeItem("eleToken");
       this.$store.dispatch("clearCurrentState");
       this.$router.push("/login");
     }
