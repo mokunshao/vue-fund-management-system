@@ -7,7 +7,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   avatar: { type: String },
   identity: { type: String, required: true },
-  data: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now }
 });
 
 module.exports = User = mongoose.model("User", userSchema);

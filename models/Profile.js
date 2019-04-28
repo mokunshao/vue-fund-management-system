@@ -8,7 +8,7 @@ const profileSchema = new Schema({
   expense: { type: String, required: true },
   cash: { type: String, required: true },
   remark: { type: String },
-  data: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now }
 });
 
 module.exports = Profile = mongoose.model("Profile", profileSchema);
