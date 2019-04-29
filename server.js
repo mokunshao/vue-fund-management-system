@@ -5,14 +5,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 const db = require("./config/keys").MongoURI;
 const users = require("./routes/api/users");
-const profiles = require("./routes/api/profiles");
+const profile = require("./routes/api/profile");
 const passport = require("passport");
 
 app.use(passport.initialize());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/api/users/", users);
-app.use("/api/profiles/", profiles);
+app.use("/api/profile/", profile);
 
 app.get("/api/test", (req, res) => {
   res.json("You can see me now.");

@@ -43,12 +43,14 @@
 <script>
 export default {
   name: "Dialog",
-  props: { dialog: Object },
+  props: { dialog: Object, form: Object },
   methods: {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.$axios.post(`/api/profiles/add`, this.form).then(res => {
+          const path =
+            this.dialog.action === "add" ? "add" : `edit/${this.form.id}`;
+          this.$axios.post(`/api/profile/${path}`, this.form).then(res => {
             this.$message({
               message: "保存成功！",
               type: "success"
@@ -62,15 +64,6 @@ export default {
   },
   data() {
     return {
-      form: {
-        type: "",
-        description: "",
-        income: "",
-        expense: "",
-        cash: "",
-        remark: ""
-        // id: ""
-      },
       format_type_list: [
         "提现",
         "提现手续费",
@@ -81,30 +74,34 @@ export default {
       ],
       form_rules: {
         description: [
-          { required: true, message: "收支描述不能为空而且是数字！", trigger: "blur" }
+          {
+            required: true,
+            message: "收支描述不能为空！",
+            trigger: "blur"
+          }
         ],
         income: [
           {
             required: true,
             message: "收入不能为空而且是数字！",
-            trigger: "blur",
-            type: "number"
+            type: "number",
+            trigger: "blur"
           }
         ],
         expense: [
           {
             required: true,
             message: "支出不能为空而且是数字！",
-            trigger: "blur",
-            type: "number"
+            type: "number",
+            trigger: "blur"
           }
         ],
         cash: [
           {
             required: true,
             message: "账户不能为空而且是数字！",
-            trigger: "blur",
-            type: "number"
+            type: "number",
+            trigger: "blur"
           }
         ]
       }

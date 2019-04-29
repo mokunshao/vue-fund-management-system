@@ -41,16 +41,24 @@
       <el-table-column prop="operation" align="center" label="操作" width="150">
         <template slot-scope="scope">
           <el-button type="warning" icon="edit" size="small" @click="onEditMoney(scope.row)">编辑</el-button>
-          <el-button
-            type="danger"
-            icon="delete"
-            size="small"
-            @click="onDeleteMoney(scope.row,scope.$index)"
-          >删除</el-button>
+          <el-button type="danger" icon="delete" size="small" @click="onDeleteMoney(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <Dialog :dialog="dialog" @update='getProfile'/>
+    <el-row>
+      <el-col :span="24">
+        <el-pagination
+          :page-sizes="pagination.page_sizes"
+          :page-size="pagination.page_size"
+          :layout="pagination.layout"
+          :total="pagination.total"
+          :current-page.sync="pagination.page_index"
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+        ></el-pagination>
+      </el-col>
+    </el-row>
+    <Dialog :dialog="dialog" :form="form" @update="getProfile"/>
   </div>
 </template>
 
@@ -61,31 +69,106 @@ export default {
   components: { Dialog },
   name: "FundList",
   methods: {
+    handleSizeChange(page_size) {
+      this.pagination.page_size = page_size;
+      this.pagination.page_index = 1;
+      this.tableData = this.allTableData.filter((item, index) => {
+        return index < page_size;
+      });
+    },
+    handleCurrentChange(page) {
+      let totla1 = this.pagination.page_size * (page - 1);
+      let total2 = this.pagination.page_size * page;
+      let newData = [];
+      for (let i = totla1; i < total2; i++) {
+        if (this.allTableData[i]) {
+          newData.push(this.allTableData[i]);
+        }
+        this.tableData = newData;
+      }
+    },
     onAddMoney() {
-      this.dialog.show = true;
+      this.dialog = {
+        show: true,
+        title: "添加资金信息",
+        action: "add"
+      };
+      this.form = {
+        type: "",
+        description: "",
+        income: "",
+        expense: "",
+        cash: "",
+        remark: "",
+        id: ""
+      };
     },
-    onEditMoney() {
-      console.log(123);
+    onEditMoney(row) {
+      this.dialog = {
+        show: true,
+        title: "修改资金信息",
+        action: "edit"
+      };
+      this.form = {
+        type: row.type,
+        description: row.description,
+        income: row.income,
+        expense: row.expense,
+        cash: row.cash,
+        remark: row.remark,
+        id: row._id
+      };
     },
-    onDeleteMoney() {
-      console.log(456);
+    onDeleteMoney(row) {
+      this.$axios.delete(`/api/profile/delete/${row._id}`).then(res => {
+        this.$message("删除成功");
+        this.getProfile();
+      });
     },
     getProfile() {
-      this.$axios.get("/api/profiles").then(
+      this.$axios.get("/api/profile").then(
         res => {
-          this.tableData = res.data;
+          // this.tableData = res.data;
+          this.allTableData = res.data;
+          this.setPagination();
         },
         error => console.log(error)
       );
+    },
+    setPagination() {
+      this.pagination.total = this.allTableData.length;
+      this.pagination.page_index = 1;
+      this.pagination.page_size = 5;
+      this.tableData = this.allTableData.filter((item, index) => {
+        return index < this.pagination.page_size;
+      });
     }
   },
   data() {
     return {
+      pagination: {
+        page_index: 1, // 当前位于哪页
+        total: 0, // 总数
+        page_size: 5, // 1页显示多少条
+        page_sizes: [5, 10, 15, 20], //每页显示多少条
+        layout: "total, sizes, prev, pager, next, jumper" // 翻页属性
+      },
       tableData: [],
+      allTableData: [],
       search_data: {},
       dialog: {
         show: false,
-        title: "we"
+        title: "",
+        action: ""
+      },
+      form: {
+        type: "",
+        description: "",
+        income: "",
+        expense: "",
+        cash: "",
+        remark: "",
+        id: ""
       }
     };
   },
