@@ -15,8 +15,8 @@ const router = new Router({
       path: "/index",
       component: () => import("./views/Index.vue"),
       children: [
-        { path: "", component: () => import("./views/Info.vue") },
-        // { path: "/home", component: () => import("./views/Home.vue") },
+        { path: "", component: () => import("./views/Home.vue") },
+        { path: "/home", component: () => import("./views/Home.vue") },
         { path: "/info", component: () => import("./views/Info.vue") },
         { path: "/fundList", component: () => import("./views/FundList.vue") }
 

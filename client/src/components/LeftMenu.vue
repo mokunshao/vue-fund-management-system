@@ -53,6 +53,7 @@ export default {
 <style lang="scss" scoped>
 .leftMenu{
   height: 100%;
+  border-right: none;
 }
 a {
   text-decoration: none;

@@ -2,7 +2,7 @@
   <div class="login">
     <section class="form_container">
       <div class="manage_tip">
-        <span class="title">记账地带</span>
+        <span class="title">记账管家</span>
         <el-form
           :model="loginUser"
           status-icon

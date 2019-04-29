@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="6" class="logoContainer">
         <img src="@/assets/logo.png" alt="logo" class="logo">
-        <span class="title">记账地带</span>
+        <span class="title">记账管家</span>
       </el-col>
       <el-col :span="6" class="userInfo">
         <img :src="userInfo.avatar" alt="avater" class="avatar">
