@@ -17,15 +17,15 @@
       </el-form-item>
 
       <el-form-item prop="income" label="收入:">
-        <el-input v-model="form.income"></el-input>
+        <el-input v-model.number="form.income"></el-input>
       </el-form-item>
 
       <el-form-item prop="expense" label="支出:">
-        <el-input v-model="form.expense"></el-input>
+        <el-input v-model.number="form.expense"></el-input>
       </el-form-item>
 
       <el-form-item prop="cash" label="账户现金:">
-        <el-input v-model="form.cash"></el-input>
+        <el-input v-model.number="form.cash"></el-input>
       </el-form-item>
 
       <el-form-item label="备注:">
@@ -81,15 +81,32 @@ export default {
       ],
       form_rules: {
         description: [
-          { required: true, message: "收支描述不能为空！", trigger: "blur" }
+          { required: true, message: "收支描述不能为空而且是数字！", trigger: "blur" }
         ],
         income: [
-          { required: true, message: "收入不能为空！", trigger: "blur" }
+          {
+            required: true,
+            message: "收入不能为空而且是数字！",
+            trigger: "blur",
+            type: "number"
+          }
         ],
         expense: [
-          { required: true, message: "支出不能为空！", trigger: "blur" }
+          {
+            required: true,
+            message: "支出不能为空而且是数字！",
+            trigger: "blur",
+            type: "number"
+          }
         ],
-        cash: [{ required: true, message: "账户不能为空！", trigger: "blur" }]
+        cash: [
+          {
+            required: true,
+            message: "账户不能为空而且是数字！",
+            trigger: "blur",
+            type: "number"
+          }
+        ]
       }
     };
   }
