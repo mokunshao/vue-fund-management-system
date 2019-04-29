@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-form :inline="true" ref="search_data" :model="search_data">
-      <el-form-item label="投标时间筛选:">
+    <el-form :inline="true" ref="search_data" :model="search_data" style="margin: 10px 0 0 10px;">
+      <el-form-item label="时间筛选:">
         <el-date-picker v-model="search_data.startTime" type="datetime" placeholder="选择开始时间"></el-date-picker>--
         <el-date-picker v-model="search_data.endTime" type="datetime" placeholder="选择结束时间"></el-date-picker>
       </el-form-item>
@@ -10,7 +10,13 @@
       </el-form-item>
 
       <el-form-item class="btnRight">
-        <el-button type="primary" @click="onAddMoney()" size="small" icon="el-icon-document-add">添加</el-button>
+        <el-button
+          type="primary"
+          @click="onAddMoney()"
+          size="small"
+          icon="el-icon-document-add"
+          v-if="userInfo.identity =='manager'"
+        >添加</el-button>
       </el-form-item>
     </el-form>
 
@@ -41,7 +47,13 @@
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" align="center"></el-table-column>
-      <el-table-column prop="operation" align="center" label="操作" width="150">
+      <el-table-column
+        prop="operation"
+        align="center"
+        label="操作"
+        width="150"
+        v-if="userInfo.identity =='manager'"
+      >
         <template slot-scope="scope">
           <el-button type="warning" size="small" @click="onEditMoney(scope.row)">编辑</el-button>
           <el-button type="danger" size="small" @click="onDeleteMoney(scope.row)">删除</el-button>
@@ -69,6 +81,11 @@
 import Dialog from "@/components/Dialog";
 
 export default {
+  computed: {
+    userInfo() {
+      return this.$store.getters.userInfo;
+    }
+  },
   components: { Dialog },
   name: "FundList",
   methods: {
