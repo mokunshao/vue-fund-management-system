@@ -1,22 +1,25 @@
 <template>
   <div>
     <el-form :inline="true" ref="search_data" :model="search_data">
-      <!-- <el-form-item label="投标时间筛选:">
+      <el-form-item label="投标时间筛选:">
         <el-date-picker v-model="search_data.startTime" type="datetime" placeholder="选择开始时间"></el-date-picker>--
         <el-date-picker v-model="search_data.endTime" type="datetime" placeholder="选择结束时间"></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="small" icon="search" @click="onScreeoutMoney()">筛选</el-button>
-      </el-form-item>-->
+        <el-button type="primary" size="small" icon="el-icon-search" @click="onScreening()">筛选</el-button>
+      </el-form-item>
+
       <el-form-item class="btnRight">
-        <el-button type="primary" @click="onAddMoney()" size="small" icon="view">添加</el-button>
+        <el-button type="primary" @click="onAddMoney()" size="small" icon="el-icon-document-add">添加</el-button>
       </el-form-item>
     </el-form>
+
     <el-table :data="tableData" style="width: 100%">
       <el-table-column type="index" label="序号" align="center"></el-table-column>
       <el-table-column prop="date" label="创建时间">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
+          <!-- <span style="margin-left: 10px">{{ new Date(scope.row.date).toLocaleString() }}</span> -->
           <span style="margin-left: 10px">{{ scope.row.date.split('T')[0] }}</span>
         </template>
       </el-table-column>
@@ -40,8 +43,8 @@
       <el-table-column prop="remark" label="备注" align="center"></el-table-column>
       <el-table-column prop="operation" align="center" label="操作" width="150">
         <template slot-scope="scope">
-          <el-button type="warning" icon="edit" size="small" @click="onEditMoney(scope.row)">编辑</el-button>
-          <el-button type="danger" icon="delete" size="small" @click="onDeleteMoney(scope.row)">删除</el-button>
+          <el-button type="warning" size="small" @click="onEditMoney(scope.row)">编辑</el-button>
+          <el-button type="danger" size="small" @click="onDeleteMoney(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -69,6 +72,24 @@ export default {
   components: { Dialog },
   name: "FundList",
   methods: {
+    onScreening() {
+      if (!this.search_data.startTime || !this.search_data.endTime) {
+        this.$message({
+          type: "warning",
+          message: "请选择时间区间"
+        });
+      } else {
+        const stime = this.search_data.startTime.getTime();
+        const etime = this.search_data.endTime.getTime();
+        console.log(stime, etime);
+        this.allTableData = this.filterTableData.filter(item => {
+          let date = new Date(item.date);
+          let time = date.getTime();
+          return time >= stime && time <= etime;
+        });
+        this.setPagination();
+      }
+    },
     handleSizeChange(page_size) {
       this.pagination.page_size = page_size;
       this.pagination.page_index = 1;
@@ -77,15 +98,23 @@ export default {
       });
     },
     handleCurrentChange(page) {
-      let totla1 = this.pagination.page_size * (page - 1);
-      let total2 = this.pagination.page_size * page;
-      let newData = [];
-      for (let i = totla1; i < total2; i++) {
-        if (this.allTableData[i]) {
-          newData.push(this.allTableData[i]);
-        }
-        this.tableData = newData;
-      }
+      // 另一种实现方式：
+      // let totla1 = this.pagination.page_size * (page - 1);
+      // let total2 = this.pagination.page_size * page;
+      // let newData = [];
+      // for (let i = totla1; i < total2; i++) {
+      //   if (this.allTableData[i]) {
+      //     newData.push(this.allTableData[i]);
+      //   }
+      //   this.tableData = newData;
+      // }
+      let unwantedData = this.pagination.page_size * (page - 1);
+      let newData = this.allTableData.filter((item, index) => {
+        return index >= unwantedData;
+      });
+      this.tableData = newData.filter((item, index) => {
+        return index < this.pagination.page_size;
+      });
     },
     onAddMoney() {
       this.dialog = {
@@ -126,14 +155,11 @@ export default {
       });
     },
     getProfile() {
-      this.$axios.get("/api/profile").then(
-        res => {
-          // this.tableData = res.data;
-          this.allTableData = res.data;
-          this.setPagination();
-        },
-        error => console.log(error)
-      );
+      this.$axios.get("/api/profile").then(res => {
+        this.filterTableData = res.data;
+        this.allTableData = res.data;
+        this.setPagination();
+      });
     },
     setPagination() {
       this.pagination.total = this.allTableData.length;
@@ -146,16 +172,20 @@ export default {
   },
   data() {
     return {
+      filterTableData: {},
+      search_data: {
+        startTime: "",
+        endTime: ""
+      },
       pagination: {
-        page_index: 1, // 当前位于哪页
-        total: 0, // 总数
-        page_size: 5, // 1页显示多少条
-        page_sizes: [5, 10, 15, 20], //每页显示多少条
-        layout: "total, sizes, prev, pager, next, jumper" // 翻页属性
+        page_index: 1,
+        total: 0,
+        page_size: 5,
+        page_sizes: [5, 10, 15, 20],
+        layout: "total, sizes, prev, pager, next, jumper"
       },
       tableData: [],
       allTableData: [],
-      search_data: {},
       dialog: {
         show: false,
         title: "",
