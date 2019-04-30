@@ -98,7 +98,6 @@ export default {
       } else {
         const stime = this.search_data.startTime.getTime();
         const etime = this.search_data.endTime.getTime();
-        console.log(stime, etime);
         this.allTableData = this.filterTableData.filter(item => {
           let date = new Date(item.date);
           let time = date.getTime();
@@ -166,7 +165,7 @@ export default {
       };
     },
     onDeleteMoney(row) {
-      this.$axios.delete(`/api/profile/delete/${row._id}`).then(res => {
+      this.$axios.delete(`/api/profile/delete/${row._id}`).then(() => {
         this.$message("删除成功");
         this.getProfile();
       });

@@ -50,7 +50,7 @@ export default {
         if (valid) {
           const path =
             this.dialog.action === "add" ? "add" : `edit/${this.form.id}`;
-          this.$axios.post(`/api/profile/${path}`, this.form).then(res => {
+          this.$axios.post(`/api/profile/${path}`, this.form).then(() => {
             this.$message({
               message: "保存成功！",
               type: "success"
