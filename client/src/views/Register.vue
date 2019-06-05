@@ -146,6 +146,9 @@ export default {
         display: inline-block;
         padding-bottom: 15px;
       }
+      .registerForm{
+        width: 300px;
+      }
       .submitButton {
         width: 100%;
         padding: 10px;

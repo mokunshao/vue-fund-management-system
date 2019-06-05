@@ -114,6 +114,9 @@ export default {
         display: inline-block;
         padding-bottom: 15px;
       }
+      .loginForm{
+        width: 300px;
+      }
       .submitButton {
         width: 100%;
         padding: 10px;
